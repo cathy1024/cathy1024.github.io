@@ -7,18 +7,18 @@
   
   <title>你不知道的JavaScript上笔记——函数作用域和块作用域 | Cathy的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1. 隐藏内部实现举例：123456789function doSomething(a) &amp;#123;    b = a + doSomethingElse(a * 2);    console.log(b * 3)&amp;#125;function doSomethingElse(a) &amp;#123;    return a - 1;&amp;#125;var b;doSomething(2); // 15">
+  <meta name="description" content="1. 隐藏内部实现举例：123456789function doSomething(a) &amp;#123;    b = a + doSomethingElse(a * 2);    console.log(b * 3)&amp;#125;function doSomethingElse(a) &amp;#123;    return a - 1;&amp;#125;var b;doSomething(2); // 15 在">
 <meta name="keywords" content="前端笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你不知道的JavaScript上笔记——函数作用域和块作用域">
 <meta property="og:url" content="https://cathy1024.github.io/2019/02/27/你不知道的JavaScript上笔记——函数作用域和块作用域/index.html">
 <meta property="og:site_name" content="Cathy的个人博客">
-<meta property="og:description" content="1. 隐藏内部实现举例：123456789function doSomething(a) &amp;#123;    b = a + doSomethingElse(a * 2);    console.log(b * 3)&amp;#125;function doSomethingElse(a) &amp;#123;    return a - 1;&amp;#125;var b;doSomething(2); // 15">
+<meta property="og:description" content="1. 隐藏内部实现举例：123456789function doSomething(a) &amp;#123;    b = a + doSomethingElse(a * 2);    console.log(b * 3)&amp;#125;function doSomethingElse(a) &amp;#123;    return a - 1;&amp;#125;var b;doSomething(2); // 15 在">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-27T09:31:45.081Z">
+<meta property="og:updated_time" content="2019-02-27T09:43:25.681Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你不知道的JavaScript上笔记——函数作用域和块作用域">
-<meta name="twitter:description" content="1. 隐藏内部实现举例：123456789function doSomething(a) &amp;#123;    b = a + doSomethingElse(a * 2);    console.log(b * 3)&amp;#125;function doSomethingElse(a) &amp;#123;    return a - 1;&amp;#125;var b;doSomething(2); // 15">
+<meta name="twitter:description" content="1. 隐藏内部实现举例：123456789function doSomething(a) &amp;#123;    b = a + doSomethingElse(a * 2);    console.log(b * 3)&amp;#125;function doSomethingElse(a) &amp;#123;    return a - 1;&amp;#125;var b;doSomething(2); // 15 在">
   
     <link rel="alternate" href="/atom.xml" title="Cathy的个人博客" type="application/atom+xml">
   
@@ -96,11 +96,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="1-隐藏内部实现"><a href="#1-隐藏内部实现" class="headerlink" title="1. 隐藏内部实现"></a>1. 隐藏内部实现</h3><p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function doSomething(a) &#123;</span><br><span class="line">    b = a + doSomethingElse(a * 2);</span><br><span class="line">    console.log(b * 3)</span><br><span class="line">&#125;</span><br><span class="line">function doSomethingElse(a) &#123;</span><br><span class="line">    return a - 1;</span><br><span class="line">&#125;</span><br><span class="line">var b;</span><br><span class="line">doSomething(2); // 15</span><br></pre></td></tr></table></figure></p>
+<p>在这个代码片段中，变量b和函数doSomethingElse(..)应该是doSomething(..)内部具体实现的“私有”内容。<br>修改代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">doSomethingElse</span> (<span class="params">a</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> b;</span><br><span class="line">    b = a + doSomething(a*<span class="number">2</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(b * <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line">doSomething(<span class="number">2</span>); <span class="comment">// 15</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://cathy1024.github.io/2019/02/27/你不知道的JavaScript上笔记——函数作用域和块作用域/" data-id="cjsn090wn00004suqo7eev6d0" class="article-share-link">Share</a>
+      <a data-url="https://cathy1024.github.io/2019/02/27/你不知道的JavaScript上笔记——函数作用域和块作用域/" data-id="cjsn0jd9b0000v0uqt7gg7gof" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端笔记/">前端笔记</a></li></ul>
